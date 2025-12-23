@@ -78,7 +78,7 @@ class DashboardScreen extends StatelessWidget {
                         Text(
                           'Bangalore Water Supply and Sewerage Board',
                           style: TextStyle(
-                            color: Color(0xFF2196F3),
+                            color: Color.fromRGBO(21, 10, 9, 1),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             height: 1.2,
@@ -88,7 +88,8 @@ class DashboardScreen extends StatelessWidget {
                         Text(
                           'ಬೆಂಗಳೂರು ಜಲ ಮಂಡಳಿ ಮತ್ತು ಒಳಚರಂಡಿ ಮಂಡಳಿ',
                           style: TextStyle(
-                            color: Colors.grey,
+                            // color: Colors.grey,
+                            color: Color.fromRGBO(33, 150, 243, 1),
                             fontSize: 12,
                             height: 1.2,
                           ),
@@ -113,7 +114,7 @@ class DashboardScreen extends StatelessWidget {
                   // Content
                   Column(
                     children: [
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 100),
                       
                       // BWSSB Login Button
                       Padding(
@@ -159,7 +160,7 @@ class DashboardScreen extends StatelessWidget {
                         ),
                       ),
                       
-                      const SizedBox(height: 80),
+                      const SizedBox(height: 180),
                       
                       // Title and Subtitle
                       const Padding(
@@ -176,7 +177,7 @@ class DashboardScreen extends StatelessWidget {
                                 height: 1.3,
                               ),
                             ),
-                            SizedBox(height: 8),
+                            SizedBox(height: 6),
                             Text(
                               'Delivering Hygienic and Safe Water for the city of Bengaluru',
                               textAlign: TextAlign.center,
@@ -242,48 +243,29 @@ class DashboardScreen extends StatelessWidget {
 class CurvedBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint();
-    
-    // Main blue background
-    paint.color = const Color(0xFF2196F3);
+    final paint = Paint()
+      ..color = const Color(0xFF2196F3)
+      ..style = PaintingStyle.fill;
+
     final path = Path();
-    
-    // Start from top
-    path.moveTo(0, 0);
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height * 0.7);
-    
-    // Create curve at the bottom
+
+    // Move start point higher (smaller value = higher on screen)
+    path.moveTo(0, size.height * 0.25); // previously 0.45
+
+    // Control point for the curve (y-value controls height)
     path.quadraticBezierTo(
-      size.width * 0.5, 
-      size.height * 0.9, 
-      0, 
-      size.height * 0.7
-    );
-    
-    path.close();
-    canvas.drawPath(path, paint);
-    
-    // Lighter blue curve overlay
-    paint.color = const Color(0xFF42A5F5);
-    final path2 = Path();
-    
-    path2.moveTo(0, size.height * 0.2);
-    path2.quadraticBezierTo(
-      size.width * 0.3,
-      size.height * 0.1,
+      size.width * 0.15,
+      size.height * 0.45, // previously 0.5
       size.width,
-      size.height * 0.25,
+      size.height * 0.20, // adjust end of curve
     );
-    path2.lineTo(size.width, size.height * 0.65);
-    path2.quadraticBezierTo(
-      size.width * 0.7,
-      size.height * 0.8,
-      0,
-      size.height * 0.6,
-    );
-    path2.close();
-    canvas.drawPath(path2, paint);
+
+    // Fill bottom
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
+    canvas.drawPath(path, paint);
   }
 
   @override
