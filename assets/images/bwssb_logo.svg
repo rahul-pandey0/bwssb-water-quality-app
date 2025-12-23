@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BWSSB Logo Placeholder</title>
+</head>
+<body>
+    <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer circle (yellow border) -->
+        <circle cx="50" cy="50" r="48" fill="#FFD700" stroke="#000" stroke-width="2"/>
+        <!-- Inner blue circle -->
+        <circle cx="50" cy="50" r="42" fill="#2196F3"/>
+        <!-- Water drop icon in center -->
+        <path d="M50 20 C40 35, 40 45, 50 50 C60 45, 60 35, 50 20 Z" fill="#FFF"/>
+        <!-- Text around the circle -->
+        <text x="50" y="85" text-anchor="middle" font-size="8" font-weight="bold" fill="#000">BWSSB</text>
+    </svg>
+</body>
+</html>
