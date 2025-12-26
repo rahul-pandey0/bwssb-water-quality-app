@@ -4,7 +4,7 @@ import '../services/auth_service.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/bwssb_logo.dart';
 import 'water_quality_samples_screen.dart';
-import 'login_screen.dart';
+import 'login_screen1.dart';
 import 'sample_collection_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -139,7 +139,7 @@ class DashboardScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const LoginScreen(),
+                                    builder: (context) => const LoginScreen1(),
                                   ),
                                 );
                               },

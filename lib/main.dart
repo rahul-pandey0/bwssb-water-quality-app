@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/splash_screen.dart';
-import 'screens/login_screen.dart';
+// import 'screens/login_screen1.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/add_sample_service_station_screen.dart';
 import 'screens/add_sample_wtp_screen.dart';
@@ -12,6 +12,15 @@ import 'screens/water_quality_samples_screen.dart';
 import 'screens/reports_screen.dart';
 import 'screens/dashboard_screens.dart';
 import 'services/auth_service.dart';
+import 'screens/landing_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/service_station_report_screen.dart';
+import 'screens/wtp_report_screen.dart';
+import 'screens/stp_report_screen.dart';
+import 'screens/add_service_station_screen.dart';
+import 'screens/add_wtp_screen.dart';
+import 'screens/add_stp_screen.dart';
 
 void main() {
   runApp(const BWSSBApp());
@@ -58,10 +67,12 @@ class BWSSBApp extends StatelessWidget {
             ),
           ),
         ),
-        initialRoute: '/',
+        initialRoute: '/splash',
         routes: {
-          '/': (context) => const SplashScreen(),
-          '/home': (context) => const DashboardScreen(),
+          '/splash': (context) => const SplashScreen(),
+          '/': (context) => const LandingScreen(),
+          '/home': (context) => const HomeScreen(),
+          // '/home': (context) => const DashboardScreen(),
           '/dashboard': (context) => const DashboardScreen(),
           '/login': (context) => const LoginScreen(),
           '/add-sample-service-station': (context) => const AddSampleServiceStationScreen(),
@@ -76,6 +87,20 @@ class BWSSBApp extends StatelessWidget {
           '/dashboard-service-stations': (context) => const DashboardServiceStationsScreen(),
           '/dashboard-wtp': (context) => const DashboardWTPScreen(),
           '/dashboard-stp': (context) => const DashboardSTPScreen(),
+
+
+          
+  // Water Quality
+  '/serviceStations': (context) => const ServiceStationScreen(),
+   '/wtp': (context) => const AddWtpScreen(),
+   '/stp': (context) => const AddStpScreen(),
+
+
+
+           // // Reports
+   '/reportServiceStations': (context) => const ServiceStationReportScreen(),
+   '/reportWtp': (context) => const WtpReportScreen(),
+   '/reportStp': (context) => const StpReportScreen(),
         },
       ),
     );
