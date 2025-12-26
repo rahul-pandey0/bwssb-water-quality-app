@@ -420,6 +420,15 @@ static Future<String> generateSampleIdWTP({
   return data.first['sampleid'].toString();
 }
 
+// ================= DASHBOARD SUMMARY =================
+static Future<Map<String, dynamic>> getSampleSummary() async {
+  final token = await SessionManager.getToken();
+  final res = await http.get(
+    Uri.parse('$baseUrl/GetSampleSummary?reportStartDate=&reportEndDate='),
+    headers: {'Authorization': 'Bearer $token'},
+  );
+  return jsonDecode(jsonDecode(res.body));
+}
 
  
 }

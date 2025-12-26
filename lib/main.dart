@@ -21,6 +21,10 @@ import 'screens/stp_report_screen.dart';
 import 'screens/add_service_station_screen.dart';
 import 'screens/add_wtp_screen.dart';
 import 'screens/add_stp_screen.dart';
+import 'screens/public_user_dash_board.dart';
+import 'screens/view_map_public.dart';
+import 'screens/service_station_report_screen_public.dart';
+import 'screens/wtp_report_screen_public.dart';
 
 void main() {
   runApp(const BWSSBApp());
@@ -88,6 +92,8 @@ class BWSSBApp extends StatelessWidget {
           '/dashboard-wtp': (context) => const DashboardWTPScreen(),
           '/dashboard-stp': (context) => const DashboardSTPScreen(),
 
+    '/maindashboard': (context) => const MainDashboardScreen(),
+
 
           
   // Water Quality
@@ -101,6 +107,11 @@ class BWSSBApp extends StatelessWidget {
    '/reportServiceStations': (context) => const ServiceStationReportScreen(),
    '/reportWtp': (context) => const WtpReportScreen(),
    '/reportStp': (context) => const StpReportScreen(),
+
+   // Public User Dashboard
+    '/map': (context) => const ViewMapPublic(),
+    '/servicestationreportpublic': (context) => const ServiceStationReportScreenPublic(),
+    '/wtpreportpublic': (context) => const WtpReportScreenPublic(),
         },
       ),
     );

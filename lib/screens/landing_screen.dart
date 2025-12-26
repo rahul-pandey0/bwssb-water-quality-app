@@ -75,7 +75,7 @@ class LandingScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(context, '/maindashboard');
               },
             ),
           ),

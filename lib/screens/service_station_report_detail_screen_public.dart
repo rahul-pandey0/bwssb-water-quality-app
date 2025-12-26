@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../widgets/loading_overlay.dart';
 
-class ServiceStationReportDetailScreen extends StatefulWidget {
+class ServiceStationReportDetailScreenPublic extends StatefulWidget {
   final String sampleId;
 
-  const ServiceStationReportDetailScreen({
+  const ServiceStationReportDetailScreenPublic({
     super.key,
     required this.sampleId,
   });
 
   @override
-  State<ServiceStationReportDetailScreen> createState() =>
+  State<ServiceStationReportDetailScreenPublic> createState() =>
       _ServiceStationReportDetailScreenState();
 }
 
 class _ServiceStationReportDetailScreenState
-    extends State<ServiceStationReportDetailScreen> {
+    extends State<ServiceStationReportDetailScreenPublic> {
   bool loading = true;
 
   List<dynamic> sampleInfo = [];

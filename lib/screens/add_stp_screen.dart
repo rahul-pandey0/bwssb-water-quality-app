@@ -43,8 +43,7 @@ class _AddStpScreenState extends State<AddStpScreen> {
   String _fmt(DateTime d) => DateFormat('yyyy-MM-dd').format(d);
 
   void _msg(String msg) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(msg)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   // ================= API =================
@@ -194,12 +193,11 @@ class _AddStpScreenState extends State<AddStpScreen> {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              _dateField('A.N START DATE', analysisStart,
-                  (d) => analysisStart = d),
-              _dateField('A.N COMPLETE DATE', analysisEnd,
-                  (d) => analysisEnd = d),
-              _dateField('SAMPLE DATE', sampleDate,
-                  (d) => sampleDate = d),
+              _dateField(
+                  'A.N START DATE', analysisStart, (d) => analysisStart = d),
+              _dateField(
+                  'A.N COMPLETE DATE', analysisEnd, (d) => analysisEnd = d),
+              _dateField('SAMPLE DATE', sampleDate, (d) => sampleDate = d),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _addData,
@@ -238,37 +236,147 @@ class _AddStpScreenState extends State<AddStpScreen> {
         ),
       );
 
-  Widget _parameterTable() => Card(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: const [
-              DataColumn(label: Text('ID')),
-              DataColumn(label: Text('Parameter')),
-              DataColumn(label: Text('Value')),
-              DataColumn(label: Text('Remarks')),
-              DataColumn(label: Text('Desired')),
-              DataColumn(label: Text('Permissible')),
-            ],
-            rows: parameters.map((p) {
-              final key = "STP${selectedStpId}_${p['i_ParameterId']}";
+  // Widget _parameterTable() => Card(
+  //       child: SingleChildScrollView(
+  //         scrollDirection: Axis.horizontal,
+  //         child: DataTable(
+  //           columns: const [
+  //             DataColumn(label: Text('ID')),
+  //             DataColumn(label: Text('Parameter')),
+  //             DataColumn(label: Text('Value')),
+  //             DataColumn(label: Text('Remarks')),
+  //             DataColumn(label: Text('Desired')),
+  //             DataColumn(label: Text('Permissible')),
+  //           ],
+  //           rows: parameters.map((p) {
+  //             final key = "STP${selectedStpId}_${p['i_ParameterId']}";
 
-              return DataRow(cells: [
-                DataCell(Text(p['i_ParameterId'].toString())),
-                DataCell(Text(p['s_ParameterName'])),
-                DataCell(TextField(
-                  onChanged: (v) => values[key] = v,
-                )),
-                DataCell(TextField(
-                  onChanged: (v) => remarks[key] = v,
-                )),
-                DataCell(Text(p['f_DesiredLimit'].toString())),
-                DataCell(Text(p['f_PermissibleLimit'].toString())),
-              ]);
-            }).toList(),
+  //             return DataRow(cells: [
+  //               DataCell(Text(p['i_ParameterId'].toString())),
+  //               DataCell(Text(p['s_ParameterName'])),
+  //               DataCell(TextField(
+  //                 onChanged: (v) => values[key] = v,
+  //               )),
+  //               DataCell(TextField(
+  //                 onChanged: (v) => remarks[key] = v,
+  //               )),
+  //               DataCell(Text(p['f_DesiredLimit'].toString())),
+  //               DataCell(Text(p['f_PermissibleLimit'].toString())),
+  //             ]);
+  //           }).toList(),
+  //         ),
+  //       ),
+  //     );
+
+
+Widget _parameterTable() => Card(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          headingRowColor: MaterialStateProperty.all(
+            Colors.blue.shade50,
           ),
+          headingTextStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+          ),
+          dataRowHeight: 44, // ✅ compact height
+          headingRowHeight: 42,
+          columns: const [
+            DataColumn(label: Text('ID')),
+            DataColumn(label: Text('Parameter')),
+            DataColumn(label: Text('Value')),
+            DataColumn(label: Text('Remarks')),
+            DataColumn(label: Text('Desired')),
+            DataColumn(label: Text('Permissible')),
+          ],
+          rows: List.generate(parameters.length, (index) {
+            final p = parameters[index];
+            final key = "STP${selectedStpId}_${p['i_ParameterId']}";
+
+            return DataRow(
+              color: MaterialStateProperty.resolveWith<Color?>(
+                (states) =>
+                    index.isEven ? Colors.white : Colors.grey.shade100,
+              ),
+              cells: [
+                // ID
+                DataCell(
+                  Text(
+                    p['i_ParameterId'].toString(),
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+
+                // Parameter Name
+                DataCell(
+                  SizedBox(
+                    width: 170,
+                    child: Text(
+                      p['s_ParameterName'],
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+
+                // Value (compact input)
+                DataCell(
+                  SizedBox(
+                    width: 90,
+                    height: 36,
+                    child: TextField(
+                      onChanged: (v) => values[key] = v,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+
+                // Remarks (compact input)
+                DataCell(
+                  SizedBox(
+                    width: 120,
+                    height: 36,
+                    child: TextField(
+                      onChanged: (v) => remarks[key] = v,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+
+                // Desired Limit
+                DataCell(
+                  Text(
+                    p['f_DesiredLimit']?.toString() ?? '-',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+
+                // Permissible Limit
+                DataCell(
+                  Text(
+                    p['f_PermissibleLimit']?.toString() ?? '-',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+              ],
+            );
+          }),
         ),
-      );
+      ),
+    );
 
   // ================= DATE FIELD (FIXED FLOATING LABEL) =================
 

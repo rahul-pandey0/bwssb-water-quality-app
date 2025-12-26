@@ -1,3 +1,4 @@
+import 'package:bwssb_app/session/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -126,7 +127,7 @@ class _ServiceStationScreenState extends State<ServiceStationScreen> {
         "AnalysisCompleteDate": '${_fmt(endDate!)} $time',
         "Address": addressCtrl.text,
         "ServiceStationId": station!.id,
-      //  "UserId": await ApiService.getUserId(),
+        "UserId": await SessionManager.getUsername(),
         "Latitude": lat.toString(),
         "Longitude": lng.toString(),
         "ParameterData": buildParameterData(),
@@ -395,39 +396,117 @@ class _ServiceStationScreenState extends State<ServiceStationScreen> {
         ),
       );
 
-  Widget buildParameterTable() => Card(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: const [
-              DataColumn(label: Text('ID')),
-              DataColumn(label: Text('Parameter')),
-              DataColumn(label: Text('Result')),
-              DataColumn(label: Text('Remark')),
-            ],
-            rows: parameters.map((p) {
-              return DataRow(cells: [
+Widget buildParameterTable() => Card(
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          headingRowHeight: 42,
+          dataRowHeight: 48,
+          columnSpacing: 18,
+          headingRowColor: MaterialStateProperty.all(
+            Colors.blue.shade50,
+          ),
+          columns: const [
+            DataColumn(label: Text('ID')),
+            DataColumn(label: Text('Parameter')),
+          
+            DataColumn(label: Text('Result')),
+            DataColumn(label: Text('Remark')),
+              DataColumn(label: Text('Unit')),
+            DataColumn(label: Text('Desired Limit')),
+            DataColumn(label: Text('Permissible Limit')),
+          ],
+          rows: List.generate(parameters.length, (index) {
+            final p = parameters[index];
+
+            return DataRow(
+              color: MaterialStateProperty.resolveWith<Color?>(
+                (states) =>
+                    index.isEven ? Colors.grey.shade50 : Colors.white,
+              ),
+              cells: [
                 DataCell(Text(p.id.toString())),
                 DataCell(Text(p.name)),
+              
+
+                // ✅ Compact Result field
                 DataCell(
                   SizedBox(
                     width: 80,
-                    child:
-                        TextField(onChanged: (v) => p.result = v),
+                    height: 36,
+                    child: TextField(
+                      onChanged: (v) => p.result = v,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
                 ),
+
+                // ✅ Compact Remark field
                 DataCell(
                   SizedBox(
                     width: 120,
-                    child:
-                        TextField(onChanged: (v) => p.remark = v),
+                    height: 36,
+                    child: TextField(
+                      onChanged: (v) => p.remark = v,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
                 ),
-              ]);
-            }).toList(),
-          ),
+                  DataCell(Text(p.unit)),
+                DataCell(Text(p.desiredLimit)),
+                DataCell(Text(p.permissibleLimit)),
+              ],
+            );
+          }),
         ),
-      );
+      ),
+    );
+
+  // Widget buildParameterTable() => Card(
+  //       child: SingleChildScrollView(
+  //         scrollDirection: Axis.horizontal,
+  //         child: DataTable(
+  //           columns: const [
+  //             DataColumn(label: Text('ID')),
+  //             DataColumn(label: Text('Parameter')),
+  //             DataColumn(label: Text('Result')),
+  //             DataColumn(label: Text('Remark')),
+  //           ],
+  //           rows: parameters.map((p) {
+  //             return DataRow(cells: [
+  //               DataCell(Text(p.id.toString())),
+  //               DataCell(Text(p.name)),
+  //               DataCell(
+  //                 SizedBox(
+  //                   width: 80,
+  //                   child:
+  //                       TextField(onChanged: (v) => p.result = v),
+  //                 ),
+  //               ),
+  //               DataCell(
+  //                 SizedBox(
+  //                   width: 120,
+  //                   child:
+  //                       TextField(onChanged: (v) => p.remark = v),
+  //                 ),
+  //               ),
+  //             ]);
+  //           }).toList(),
+  //         ),
+  //       ),
+  //     );
 
   Widget dropdown(
     String label,
