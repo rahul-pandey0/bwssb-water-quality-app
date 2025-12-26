@@ -10,6 +10,7 @@ import '../validators/service_station_validator.dart';
 import 'drawer_menu.dart';
 import '../widgets/wqms_app_bar.dart';
 import '../widgets/page_heading.dart';
+import 'map_picker_screen.dart';
 
 class ServiceStationScreen extends StatefulWidget {
   const ServiceStationScreen({super.key});
@@ -218,9 +219,22 @@ class _ServiceStationScreenState extends State<ServiceStationScreen> {
                
                             Center(
                               child: ElevatedButton(
-                                onPressed: getLocation,
-                                child:
-                                    const Text('Get The Current Location'),
+                               onPressed: () async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const MapPickerScreen(),
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        lat = result.latitude;
+        lng = result.longitude;
+      });
+    }
+  },
+  child: const Text('Get The Current Location'),
                               ),
                             ),
                             const SizedBox(height: 12),
