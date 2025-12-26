@@ -23,7 +23,7 @@ class BWSSBLogo extends StatelessWidget {
     this.size = 180,
     this.showBorder = false,
     this.borderColor = Colors.yellow,
-  }) : imagePath = 'assets/images/splashlogo.png',
+  }) : imagePath = 'assets/images/splalogoshlogo.png',
        fallbackColor = const Color(0xFF2196F3),
        iconSize = 80;
 
@@ -32,7 +32,7 @@ class BWSSBLogo extends StatelessWidget {
     this.size = 60,
     this.showBorder = true,
     this.borderColor = Colors.yellow,
-  }) : imagePath = 'assets/images/bwssblogodash.png',
+  }) : imagePath = 'assets/images/logo.png',
        fallbackColor = const Color(0xFF87CEEB),
        iconSize = 28;
 
@@ -41,7 +41,7 @@ class BWSSBLogo extends StatelessWidget {
     this.size = 50,
     this.showBorder = false,
     this.borderColor = Colors.yellow,
-  }) : imagePath = 'assets/images/bwssblogonew.png',
+  }) : imagePath = 'assets/images/logo.png',
        fallbackColor = const Color(0xFF2196F3),
        iconSize = 28;
 

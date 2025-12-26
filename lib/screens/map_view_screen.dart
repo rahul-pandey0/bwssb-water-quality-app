@@ -18,6 +18,23 @@ class _MapViewScreenState extends State<MapViewScreen> {
         title: const Text('BWSSB Map View'),
         backgroundColor: const Color(0xFF2196F3),
         foregroundColor: Colors.white,
+         leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Image.asset(
+              'assets/images/menu.png',
+              width: 24,
+              height: 24,
+              color: const Color(0xFF2196F3),
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(
+                  Icons.menu,
+                  color: Color(0xFF2196F3),
+                );
+              },
+            ),
+          ),
+        ),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
