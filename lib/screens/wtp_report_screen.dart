@@ -3,6 +3,8 @@ import '../services/api_service.dart';
 import '../widgets/loading_overlay.dart';
 import 'drawer_menu.dart';
 import 'wtp_report_detail_screen.dart';
+import '../widgets/wqms_app_bar.dart';
+import '../widgets/page_heading.dart';
 
 class WtpReportScreen extends StatefulWidget {
   const WtpReportScreen({super.key});
@@ -97,23 +99,27 @@ class _WtpReportScreenState extends State<WtpReportScreen> {
       children: [
         Scaffold(
           drawer: const AppDrawer(),
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            iconTheme: const IconThemeData(color: Colors.black),
-            title: const Text(
-              'Water Quality Report for WTP',
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          // appBar: AppBar(
+          //   backgroundColor: Colors.white,
+          //   elevation: 0,
+          //   iconTheme: const IconThemeData(color: Colors.black),
+          //   title: const Text(
+          //     'Water Quality Report for WTP',
+          //     style: TextStyle(
+          //       color: Colors.blue,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+            appBar: const WqmsAppBar(),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                 const PageHeading(
+      title: 'Water Quality Report for WTP',
+    ),
                 // ===================== DATE CARD =====================
                 Card(
                   elevation: 2,
@@ -121,22 +127,25 @@ class _WtpReportScreenState extends State<WtpReportScreen> {
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
+                          // ✅ REUSABLE PAGE HEADING
+   
+         
                         Row(
                           children: [
-                            _dateField(
+                            _floatingDateField(
                               label: 'REPORT START DATE',
                               date: startDate,
                               onTap: () => _pickDate(true),
                             ),
-                            const SizedBox(width: 10),
-                            _dateField(
+                            const SizedBox(width: 12),
+                            _floatingDateField(
                               label: 'REPORT END DATE',
                               date: endDate,
                               onTap: () => _pickDate(false),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 16),
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton(
@@ -241,48 +250,23 @@ class _WtpReportScreenState extends State<WtpReportScreen> {
     );
   }
 
-  // ===================== DATE FIELD =====================
-  Widget _dateField({
+  // ===================== FLOATING DATE FIELD =====================
+  Widget _floatingDateField({
     required String label,
     required DateTime? date,
     required VoidCallback onTap,
   }) {
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 6),
-          InkWell(
-            onTap: onTap,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 12, horizontal: 12),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    date == null
-                        ? 'SELECT DATE'
-                        : _fmt(date),
-                  ),
-                  const Icon(Icons.calendar_today, size: 18),
-                ],
-              ),
-            ),
-          ),
-        ],
+      child: TextFormField(
+        readOnly: true,
+        onTap: onTap,
+        decoration: InputDecoration(
+          labelText: label,
+          suffixIcon: const Icon(Icons.calendar_today),
+        ),
+        controller: TextEditingController(
+          text: date == null ? '' : _fmt(date),
+        ),
       ),
     );
   }

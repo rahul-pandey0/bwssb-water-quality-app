@@ -2,6 +2,9 @@ import 'package:bwssb_app/screens/stp_report_detail_screen.dart';
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../widgets/loading_overlay.dart';
+import '../widgets/wqms_app_bar.dart';
+import '../widgets/page_heading.dart';
+import 'drawer_menu.dart';
 
 class StpReportScreen extends StatefulWidget {
   const StpReportScreen({super.key});
@@ -84,8 +87,7 @@ class _StpReportScreenState extends State<StpReportScreen> {
   }
 
   void showMsg(String msg) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(msg)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   // ===================== UI =====================
@@ -94,13 +96,20 @@ class _StpReportScreenState extends State<StpReportScreen> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(
-            title: const Text('Water Quality Report for STP'),
-          ),
+          drawer: const AppDrawer(),
+          // appBar: AppBar(
+          //   title: const Text('Water Quality Report for STP'),
+          // ),
+          appBar: const WqmsAppBar(),
+
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
+                // ✅ REUSABLE PAGE HEADING
+                const PageHeading(
+                  title: 'Water Quality Report for STP',
+                ),
                 // ===================== FILTER CARD =====================
                 Card(
                   shape: RoundedRectangleBorder(
@@ -125,8 +134,7 @@ class _StpReportScreenState extends State<StpReportScreen> {
                                 ),
                               )
                               .toList(),
-                          onChanged: (v) =>
-                              setState(() => selectedStpId = v),
+                          onChanged: (v) => setState(() => selectedStpId = v),
                         ),
 
                         const SizedBox(height: 12),
@@ -210,8 +218,7 @@ class _StpReportScreenState extends State<StpReportScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => StpReportDetailScreen(
-                                sampleId:
-                                    r['i_SampleId'].toString(),
+                                sampleId: r['i_SampleId'].toString(),
                               ),
                             ),
                           );
@@ -254,9 +261,7 @@ class _StpReportScreenState extends State<StpReportScreen> {
             ),
           ),
           child: Text(
-            date == null
-                ? 'Select date'
-                : date.toIso8601String().split('T')[0],
+            date == null ? 'Select date' : date.toIso8601String().split('T')[0],
             style: const TextStyle(fontSize: 15),
           ),
         ),
